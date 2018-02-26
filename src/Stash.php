@@ -10,7 +10,11 @@
 namespace Assoto;
 
 /**
-* ...
+* Assets Stash
+*
+* Assets are accumulated in zones. There are two zones by default: "head" (used
+* for the "<head>...</head>" element) and "footer" (used for the bottom of the
+* "<body>" tag)
 */
 class Stash
 {
