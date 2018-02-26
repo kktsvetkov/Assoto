@@ -30,7 +30,7 @@ class Meta
 	* Adds a link element
 	*
 	* Adds a link element as an asset, which will appear as
-	* "<link rel='...' href='...'>" inserted into the "head" zone
+	* "<link rel='...' href='...'>" inserted into the "head" stack
 	*
 	* @param string $url canonical URL
 	* @param string $rel "rel" attribute for the "<link>" tag; it specifies
@@ -54,8 +54,8 @@ class Meta
 			'rel' => $rel,
 			) + (array) $extra;
 
-		return Stash::add(
-			Stash::ZONE_HEAD,
+		return Stack::add(
+			Stack::STACK_HEAD,
 			'<link ' . HTML::attributes($extra) . '/>',
 			$id
 		);
@@ -65,7 +65,7 @@ class Meta
 	* Adds a meta tag
 	*
 	* Adds a meta tag as an asset, which will appear as
-	* "<meta name='...' content='...'>" inserted into the "head" zone
+	* "<meta name='...' content='...'>" inserted into the "head" stack
 	*
 	* @param string $name name of the meta tag, such as "keywords",
 	*	"description", "viewport", "generator", "content-type", etc.
@@ -93,18 +93,19 @@ class Meta
 			$extra['http-equiv'] = $name;
 		}
 
-		return Stash::add(
-			Stash::ZONE_HEAD,
+		return Stack::add(
+			Stack::STACK_HEAD,
 			'<meta ' . HTML::attributes($extra) . '/>',
 			$id
 		);
 	}
 
 	/**
-	* Adds a meta tag with property attribute
+	* Adds a meta tag with property attribute. These type of meta tags are
+	* used in the Open Graph Protocol
 	*
 	* Adds a meta tag as an asset, which will appear as
-	* "<meta property='...' content='...'>" inserted into the "head" zone
+	* "<meta property='...' content='...'>" inserted into the "head" stack
 	*
 	* @param string $property property attribute for this meta tag, such
 	*	as "og:title" and "fb:app_id"
@@ -124,8 +125,8 @@ class Meta
 			'content' => $content,
 			);
 
-		return Stash::add(
-			Stash::ZONE_HEAD,
+		return Stack::add(
+			Stack::STACK_HEAD,
 			'<meta ' . HTML::attributes($extra) . '/>',
 			$id
 		);
@@ -137,7 +138,7 @@ class Meta
 	* Adds a canonical link element
 	*
 	* Adds a canonical link element as an asset, which will appear as
-	* "<link rel='canonical' href='...'>" inserted into the "head" zone
+	* "<link rel='canonical' href='...'>" inserted into the "head" stack
 	*
 	* There can be only one canonical URL for a page, and that is why this
 	* method does not have an $id argument; instead the id for this element
@@ -154,7 +155,7 @@ class Meta
 	* Adds an icon link element
 	*
 	* Adds an icon link element as an asset, which will appear as
-	* "<link rel='icon' href='...'>" inserted into the "head" zone
+	* "<link rel='icon' href='...'>" inserted into the "head" stack
 	*
 	* @param string $url icon URL
 	* @param string $type icon image MIME type, will be used as the
@@ -170,6 +171,16 @@ class Meta
 		);
 	}
 
+	/**
+	* Adds a rel="alternative" link element with hreflang="..." attribute
+	*
+	* This element will appear as
+	* "<link rel='alternative' hreflang='...' href='...'>" tag inserted
+	* into the "<head>..</head>" element
+	*
+	* @param string $url alternative language url
+	* @param string $hreflang locale for the hreflang="..." attribute
+	*/
 	public static function hreflang($url, $hreflang = 'x-default')
 	{
 		return self::link(

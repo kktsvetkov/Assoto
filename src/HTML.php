@@ -20,14 +20,14 @@ class HTML
 	* Adds the "<title>...</title>" tag as an assets. The title always
 	* appears in the "<head>...</head>" part of the HTML. There can be only
 	* one title, and that is why there is no $id argument here: instead you
-	* can find this element with the "html:title" id in the "head" zone
+	* can find this element with the "html:title" id in the "head" stack
 	*
 	* @param string $title
 	*/
 	public static function title($title)
 	{
-		return Stash::add(
-			Stash::ZONE_HEAD,
+		return Stack::add(
+			Stack::STACK_HEAD,
 			'<title>' . htmlspecialchars($title) . '</title>',
 			'html:title'
 		);
@@ -35,6 +35,7 @@ class HTML
 
 	/**
 	* Return HTML attributes built from an array
+	*
 	* @param array $array
 	* @return string generated HTML
 	*/
@@ -48,8 +49,16 @@ class HTML
 				$value = http_build_query((array) $value);
 			}
 
+			if (is_int($key))
+			{
+				$html .= (empty($html) ? '' : ' ')
+					. htmlspecialchars($value);
+				continue;
+			}
+
 			$html .= (empty($html) ? '' : ' ')
 				. "$key=\"" . htmlspecialchars($value) . "\"";
+
 		}
 
 		return $html;

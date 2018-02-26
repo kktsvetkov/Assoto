@@ -1,6 +1,6 @@
 {
 	"name": "kktsvetkov/assoto",
-	"description": "PHP error messages reporting tool",
+	"description": "Dynamically handles assets inserted into the header and the footer, allowing you to enqueue your JS and CSS files, your meta tags, etc.",
 	"authors": [
 		{
 			"name": "Kaloyan Tsvetkov (KT)",

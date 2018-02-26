@@ -22,7 +22,7 @@ class CSS
 	* Adds an inline style block
 	*
 	* Adds a style block as an asset, which will appear as
-	* "<style>...</style>" inserted into the "head" zone
+	* "<style>...</style>" inserted into the "<head>...</head>" tag
 	*
 	* @param string $style CSS for the style block; don't add the "<style>"
 	*	tags wrapping the CSS code, that will be added by this method
@@ -33,11 +33,11 @@ class CSS
 	{
 		if (empty($id))
 		{
-			$id = count(Stash::zone(Stash::ZONE_HEAD));
+			$id = count(Stack::stack(Stack::STACK_HEAD));
 		}
 
-		return Stash::add(
-			Stash::ZONE_HEAD,
+		return Stack::add(
+			Stack::STACK_HEAD,
 			'<style type="text/css">' . $style . '</style>',
 			'css:' . $id
 		);
@@ -47,7 +47,7 @@ class CSS
 	* Adds a CSS stylesheet file
 	*
 	* Adds a CSS stylesheet as an asset, which will appear inserted into
-	* the "head" zone as "<link type='text\css' href='...'>" tag
+	* the "<head>...</head>" as "<link type='text\css' href='...'>" tag
 	*
 	* @param string $stylesheet URL to the stylesheet
 	* @param string $id (optional) identifier for this asset; if left empty
