@@ -1,0 +1,30 @@
+{
+	"name": "kktsvetkov/assoto",
+	"description": "PHP error messages reporting tool",
+	"authors": [
+		{
+			"name": "Kaloyan Tsvetkov (KT)",
+			"email": "kaloyan@kaloyan.info",
+			"homepage": "http://kaloyan.info",
+			"role": "Developer"
+		}
+        ],
+	"license": "LGPL-3.0",
+        "require": {
+		"php": ">=5.3.0"
+        },
+	"keywords": [
+		"assets",
+		"enqueue",
+		"javascript",
+		"css",
+		"stylesheet",
+		"meta"
+        ],
+	"homepage": "https://github.com/kktsvetkov/Assoto",
+        "autoload": {
+		"psr-4": {
+			"Assoto\\": "src/"
+		}
+        }
+}
