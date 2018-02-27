@@ -74,7 +74,7 @@ Under the hood all of them are actually calling `Assoto\Stack::add()` method. De
  - `Assoto\JS::inline("console.log(somevar);")` - adds javascript inline `<script>...</script>` block to "footer" assets stack
  - `Assoto\JS::file("my.js")` - adds javascript file to "footer" assets stack
 
- - `Assoto\Meta::link('//github.com', 'dns-prefetch')` - adds "dns-prefetch" link tag to "head" assets stack
+ - `Assoto\Meta::link('//assets-cdn.github.com', 'dns-prefetch')` - adds "dns-prefetch" link tag to "head" assets stack
  - `Assoto\Meta::canonical('http://github.com/kktsvetkov/assoto')` - adds canonical link element to "head" assets stack
  - `Assoto\Meta::icon('favicon.ico')` - adds icon link to the "head" assets stack
 
@@ -107,3 +107,60 @@ Array
 Assets that are files (such as stylesheets and javascript files) have their urls used to compose their ids. This works as prevention for adding the same assets file multiple times. You can call as many times as you want to add the same asset, but in the end it will be added only once, and this is achieved by locking to its "id".
 
 To check if an asset exists in a stack call `Assoto\Stack::exists($stack, $id)`. If you want to delete an already added asset call `Assoto\Stack::delete($stack, $id)`.
+
+## More Examples
+ - Inline favicon image
+```php
+ 	Assoto\Meta::icon('data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAgCAYAAADnnNMGAAADDUlEQVRIib2WX2iOURzHP+/T0pKWTi4kLe1sN/Kvpfy74UaijJTRrI2xlVJkJ0YR0XAuKLsxtOxCmvwrVlwgf0fChRbLqSW5kE7ScqH15uL5PXvPu9737X1f5VtPzznf5/f7fc+f3/mdJ0WR8NrMAD4BCnihnF1RrG9UrKHYTpN2VQl+JYmESP8PkZLwX0QqkobXZg5wD6gEfgtdDfQqZw3wJ1cAr81ZoBX4KlQlMAVoUM6+h+yZdANzgRpgnjxVQKfXZq1y9mdgnxaB3cBeYHrgUyuD604Cp8R4rcwCYAB4CSwBtgj3DWgG+iTAbeC02CW4BrwClgGbhWtUzg6kvDYRcf7XAoPK2XXBUvTJUgCMysxUsDSz5d2rnO0I/B4BK4EvQF0EnBcBgC6y0QaMSHuOCCTBE4E3oYBgl7yrge4IWBB8bA4tlbNpYBP5z8V3YF0OfmbQXh0BjcCYEJ1em9ZJQh+AhhyB0sAq5ez3kPTaVAP3A2p/ro3/BQwRZ1JEnLoeWE+mrEC8Lw+IlzHBGHGG1Uj/gHL2TCoYwUngUI4Rl4sB5WwjBOdEOXsYeFxGsFz7NQI0JZ2KSR+bgA3ESzQOfATOAksLiFwCLgL14lMF3FXOjicGqTyOAHhtFgHvCtkAw8B8ycScyFsgpZY9D6gR4Ie0n8kDcSl6WmgUharwDWCqtD8DW8mk+jBxWiejX+61uVCSiDjUB1STcvYtMEv61cpZD2wPbNq9NjuLEvHa7ADaA6pLOfta7vgsKGf7gXMBddFrs7igiGz05YAaUM6eyjcgEdoHPAyo616bqaHNhKPXZgpwK/j2ITlMRWAT8XUAcQW4kVMEuEKmRPwRx6IgF1pov8ZrcyRLxGtzkMwFBbBROTtCCVDODgEtAXXMa7MeIPLabCO4KoGjytnBUgQCoX6gJ6DueG2WR2RX0ZvK2ePlCARCe4AnAVUfKWdPAB3EB6ztXwQCtBBf103K2Z5I1HuBhbKB/wzl7ChQp5y9CtmlfjyfU5lCE/HK/YMsya8U4zSZAjlWyHAy/gJwnedKs9gq+QAAAABJRU5ErkJggg==');
+```
+ - Hreflang alternative link tags
+```php
+	Assoto\Meta::hreflang('//example.com/en-us');
+	Assoto\Meta::hreflang('//example.com/de-de', 'de-de');
+	Assoto\Meta::hreflang('//example.com/en-ca', 'en-ca');
+```
+ - Open Graph Protocol
+```php
+	Assoto\Meta::property('og:image', 'https://avatars3.githubusercontent.com/u/694812?s=400&amp;v=4');
+	Assoto\Meta::property('og:site_name', 'GitHub');
+	Assoto\Meta::property('og:type', 'object');
+	Assoto\Meta::property('og:title', 'kktsvetkov/Assoto');
+	Assoto\Meta::property('og:url', 'https://github.com/kktsvetkov/Assoto');
+	Assoto\Meta::property('fb:app_id', '1401488693436528');
+```
+ - Google Site Verification
+```php
+	Assoto\Meta::meta('google-site-verification', 'KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU');
+```
+ - Atom Feed
+```php
+	Assoto\Meta::link(
+		'https://github.com/kktsvetkov/Assoto/commits/master.atom',
+		'alternative',
+		'', // empty id, let the id be auto-generated
+		array(
+			'type' => 'application/atom+xml',
+			'title' => 'Recent Commits to Assoto'
+		));
+```
+ - Apple Touch Icons
+```php
+ 	Assoto\Meta::link(
+		'//assets-cdn.github.com/apple-touch-icon-114x114.png',
+		'apple-touch-icon',
+		'', // empty id, let the id be auto-generated
+		array('sizes' => '114x114')
+		);
+```
+ - Bootstrap Javascript File
+```php
+ Assoto\JS::file(
+ 	'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+ 	'', // empty id, let the id be auto-generated
+ 	array(
+ 		'integrity' => 'sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa',
+ 	 	'crossorigin' => 'anonymous',
+ 		'async'
+ 	)
+ );
+```
