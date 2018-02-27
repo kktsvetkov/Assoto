@@ -13,10 +13,12 @@ Following these rules, you will often need to prepare Javascript scripts and fil
 ## Stacks
 While preparing to render a page, you start accumulating your assets. This happens by _stacking_ them in what is called "stacks". There are two stacks:
 
- - **"head"** (`Assoto/Stack::STACK_HEAD`) for the ``<HEAD>...</HEAD>`` portion of the page,
- - **"footer"** (`Assoto/Stack::STACK_FOOTER`) for the bottom of the page just before the closing ``</BODY>`` tag.
+ - **"head"** (`Assoto\Stack::STACK_HEAD`) for the ``<HEAD>...</HEAD>`` portion of the page,
+ - **"footer"** (`Assoto\Stack::STACK_FOOTER`) for the bottom of the page just before the closing ``</BODY>`` tag.
 
 Following the best practices **Assoto** will put all your stylesheets in the "head", and all your scripts at the bottom in the "footer".
+
+To see what's already added in a stack call `Assoto\Stack::stack($stack)`. If you want to reset a stack and empty it call `Assoto\Stack::reset($stack)`.
 
 ## How to use ?
 You start by stacking your assets.
@@ -84,8 +86,6 @@ Each asset added gets an "id". In some cases this identification is used to chec
 
 You can manually set the "id" when calling the `Assoto\Stack::add()` method directly. Most of the canned methods also support providing assets "id" as one of their arguments. There are some that methods where the "id" argument is omitted on purpose since those assets can have only one instance - such as `Assoto\Meta::canonical()` and `Assoto\HTML::title()`
 
-Assets that are files (such as stylesheets and javascript files) have their urls used to compose their ids.
-
 Let's have few assets stacked:
 ```php
 	Assoto\HTML::title('Hello World!');
@@ -93,7 +93,7 @@ Let's have few assets stacked:
 ```
 Both of those assets are assigned to the "head" (`Assoto/Stack::STACK_HEAD`) stack. Let's have a look at that stack and see the "id" for each of those assets:
 ```php
-print_r(Assoto\Stack::stack(Assoto/Stack::STACK_HEAD));
+print_r(Assoto\Stack::stack(Assoto\Stack::STACK_HEAD));
 ```
 
 ```bash
@@ -103,3 +103,7 @@ Array
     [html:title] => <title>Hello World!</title>
 )
 ```
+
+Assets that are files (such as stylesheets and javascript files) have their urls used to compose their ids. This works as prevention for adding the same assets file multiple times. You can call as many times as you want to add the same asset, but in the end it will be added only once, and this is achieved by locking to its "id".
+
+To check if an asset exists in a stack call `Assoto\Stack::exists($stack, $id)`. If you want to delete an already added asset call `Assoto\Stack::delete($stack, $id)`.
