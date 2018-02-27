@@ -14,4 +14,5 @@ function Assoto_autoload($class)
 		}
 	}
 }
+
 spl_autoload_register('Assoto_autoload');
