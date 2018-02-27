@@ -49,7 +49,7 @@ class Stack
 	}
 
 	/**
-	* Enque new asset
+	* Stack new asset
 	*
 	* @param string $stack name of the stack, usually will be either "head"
 	*	or "footer", but can be anything you want to use

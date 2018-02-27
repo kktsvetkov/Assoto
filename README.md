@@ -57,4 +57,49 @@ The rendered output will be
 </html>
 ```
 
-This will work with any type of template engine you use, it will just require some additional code to pass the accumulated assets.
+That's it. Very simple and straight-forward. This will work with any type of template engine you use, it will just require some additional code to pass the accumulated assets.
+
+## Assets
+There are several classes with _canned_ methods for adding different types of assets: stylesheets, scripts, meta tags and links.
+
+Under the hood all of them are actually calling `Assoto\Stack::add()` method. Depending on the type of the asset, these canned method are adding some additional default values, and pointing towards the correct stack.
+
+ - `Assoto\HTML::title("Hello World!")` - adds `<title>...</title>` tags to "head" assets stack  
+
+ - `Assoto\CSS::style("body{background:#fff}")` - adds inline `<style>...</style>` block to "head" assets stack
+ - `Assoto\CSS::stylesheet("my.css")` - adds CSS stylesheet "head" assets stack
+
+ - `Assoto\JS::inline("console.log(somevar);")` - adds javascript inline `<script>...</script>` block to "footer" assets stack
+ - `Assoto\JS::file("my.js")` - adds javascript file to "footer" assets stack
+
+ - `Assoto\Meta::link('//github.com', 'dns-prefetch')` - adds "dns-prefetch" link tag to "head" assets stack
+ - `Assoto\Meta::canonical('http://github.com/kktsvetkov/assoto')` - adds canonical link element to "head" assets stack
+ - `Assoto\Meta::icon('favicon.ico')` - adds icon link to the "head" assets stack
+
+ - `Assoto\Meta::meta('keywords', 'assets, enqueue')` - adds meta tag for "keywords" to the "head" assets stack
+ - `Assoto\Meta::property('og:type', 'website')` - adds meta tag with property attribute (used for Open Graph Protocol) to the "head" assets stack
+
+## Identifying assets
+Each asset added gets an "id". In some cases this identification is used to check if the assets already exists in a stack, and in some cases it is used to make sure that you only have one asset of that type.
+
+You can manually set the "id" when calling the `Assoto\Stack::add()` method directly. Most of the canned methods also support providing assets "id" as one of their arguments. There are some that methods where the "id" argument is omitted on purpose since those assets can have only one instance - such as `Assoto\Meta::canonical()` and `Assoto\HTML::title()`
+
+Assets that are files (such as stylesheets and javascript files) have their urls used to compose their ids.
+
+Let's have few assets stacked:
+```php
+	Assoto\HTML::title('Hello World!');
+	Assoto\CSS::stylesheet('my.css');
+```
+Both of those assets are assigned to the "head" (`Assoto/Stack::STACK_HEAD`) stack. Let's have a look at that stack and see the "id" for each of those assets:
+```php
+print_r(Assoto\Stack::stack(Assoto/Stack::STACK_HEAD));
+```
+
+```bash
+Array
+(
+    [css:my.css] => <link href="my.css" rel="stylesheet" type="text/css"/>
+    [html:title] => <title>Hello World!</title>
+)
+```
