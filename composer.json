@@ -1,6 +1,6 @@
 {
 	"name": "kktsvetkov/assoto",
-	"description": "Dynamically handles assets inserted into the header and the footer, allowing you to enqueue your JS and CSS files, your meta tags, etc.",
+	"description": "Simple assets management for enqueuing your JS and CSS files, your meta tags, etc.",
 	"authors": [
 		{
 			"name": "Kaloyan Tsvetkov (KT)",
@@ -19,7 +19,10 @@
 		"javascript",
 		"css",
 		"stylesheet",
-		"meta"
+		"meta",
+		"meta-tags",
+		"css-files",
+		"js-files"
         ],
 	"homepage": "https://github.com/kktsvetkov/Assoto",
         "autoload": {
