@@ -78,7 +78,7 @@ class JS
 
 		return Stack::add(
 			(string) $stack,
-			'<script ' . HTML::attributes($extra) . '/>',
+			'<script ' . HTML::attributes($extra) . '></script>',
 			'js:' . $id
 		);
 	}
