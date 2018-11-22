@@ -69,11 +69,14 @@ class JS
 		$extra += array(
 			'type' => 'text/javascript',
 			);
-		$extra['src'] = $script;
+		$extra['src'] = (string) $script;
 
 		if (empty($id))
 		{
-			$id = $script;
+			$id = (string) $script;
+		} else
+		{
+			$id = (string) $id;
 		}
 
 		return Stack::add(
